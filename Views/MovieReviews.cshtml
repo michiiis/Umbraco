@@ -1,0 +1,33 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.MovieReviews>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+	Layout = "Master.cshtml";
+}
+
+
+@{
+	var selection = Umbraco.Content(Guid.Parse("2b957e73-8be4-4bc8-a089-4007819f23d4"))
+    .Children()
+    .Where(x => x.IsVisible())
+    .OrderBy(x => x.CreateDate)
+    .Take(10);
+}
+	        @foreach (var item in selection)
+	        {
+	        <a href="@item.Url()">
+            <div>
+                @item.Value("title");
+            </div>
+            
+            @{
+                var image = item.Value<IPublishedContent>("leadImage");
+                }
+        
+            <div>
+                <img src="@image.Url()" class="img-fluid" />
+            </div>
+            </a>
+}
+
+
